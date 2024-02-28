@@ -98,15 +98,15 @@ def create_dataloader(path, imgsz, batch_size, stride, single_cls=False, hyp=Non
         shuffle = False
     with torch_distributed_zero_first(rank):  # init dataset *.cache only once if DDP
         dataset = LoadImagesAndLabels(path, imgsz, batch_size,
-                                      augment=augment,  # augmentation
-                                      hyp=hyp,  # hyperparameters
-                                      rect=rect,  # rectangular batches
-                                      cache_images=cache,
-                                      single_cls=single_cls,
-                                      stride=int(stride),
-                                      pad=pad,
-                                      image_weights=image_weights,
-                                      prefix=prefix)
+                                        augment=augment,  # augmentation
+                                        hyp=hyp,  # hyperparameters
+                                        rect=rect,  # rectangular batches
+                                        cache_images=cache,
+                                        single_cls=single_cls,
+                                        stride=int(stride),
+                                        pad=pad,
+                                        image_weights=image_weights,
+                                        prefix=prefix)
 
     batch_size = min(batch_size, len(dataset))
     nd = torch.cuda.device_count()  # number of CUDA devices
@@ -440,7 +440,7 @@ class LoadImagesAndLabels(Dataset):
         self.img_files = list(cache.keys())  # update
         self.label_files = img2label_paths(cache.keys())  # update
         n = len(shapes)  # number of images
-        bi = np.floor(np.arange(n) / batch_size).astype(np.int)  # batch index
+        bi = np.floor(np.arange(n) / batch_size).astype(np.int32)  # batch index
         nb = bi[-1] + 1  # number of batches
         self.batch = bi  # batch index of image
         self.n = n
@@ -482,7 +482,7 @@ class LoadImagesAndLabels(Dataset):
                 elif mini > 1:
                     shapes[i] = [1, 1 / mini]
 
-            self.batch_shapes = np.ceil(np.array(shapes) * img_size / stride + pad).astype(np.int) * stride
+            self.batch_shapes = np.ceil(np.array(shapes) * img_size / stride + pad).astype(np.int32) * stride
 
         # Cache images into RAM/disk for faster training (WARNING: large datasets may exceed system resources)
         self.imgs, self.img_npy = [None] * n, [None] * n
@@ -852,7 +852,7 @@ def extract_boxes(path=DATASETS_DIR / 'coco128'):  # from utils.datasets import 
                     b = x[1:] * [w, h, w, h]  # box
                     # b[2:] = b[2:].max()  # rectangle to square
                     b[2:] = b[2:] * 1.2 + 3  # pad
-                    b = xywh2xyxy(b.reshape(-1, 4)).ravel().astype(np.int)
+                    b = xywh2xyxy(b.reshape(-1, 4)).ravel().astype(np.int32)
 
                     b[[0, 2]] = np.clip(b[[0, 2]], 0, w)  # clip boxes outside of image
                     b[[1, 3]] = np.clip(b[[1, 3]], 0, h)
