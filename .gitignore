@@ -1,8 +1,16 @@
 *.pyc
 *.DS_Store
-yolov5s.pt
+
+# Logging
 log_model
 runs
 wandb
+
+# Configs
+train_GRl.sh
+data/domain/drones_synth_to_real.yaml
+
+# Models
 *.pt
+
 *.idea
