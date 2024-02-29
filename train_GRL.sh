@@ -12,7 +12,7 @@ IMGSIZE=1920
 BATCH=1
 DEVICE=0
 PROJECT='/home/denis/nkbtech/hdd/denis/yolo_runs/drones/stratim_detection'
-NAME='v8x6-oiv7_yoloG_real_7k_synth_7k_v2'
+NAME='v8x6-oiv7_yoloG_real_7k_synth_7k_v3'
 
 python train_GRL.py\
   --weights $WEIGHTS\

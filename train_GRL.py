@@ -455,8 +455,8 @@ def train(hyp,  # path/to/hyp.yaml or hyp dictionary
                 scaler.step(optimizer)  # optimizer.step
                 scaler.update()
                 optimizer.zero_grad()
-                if ema:
-                    ema.update(model)
+                # if ema:
+                #     ema.update(model)
                 last_opt_step = ni
 
             # Log
