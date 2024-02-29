@@ -9,6 +9,7 @@ wandb
 # Configs
 train_GRl.sh
 data/domain/drones_synth_to_real.yaml
+data/hyps/hyp.drones_synth_to_real_v1.yaml
 
 # Models
 *.pt
